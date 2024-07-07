@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<META CHARSET="UTF-8">
+<TITLE>Critique Crusher</TITLE>
+<!-- Free Fav-icon SVG under PD license. Source: https://www.svgrepo.com/svg/356680/popcorn -->
+<LINK rel="icon" href="./Assets/ticket-svgrepo-com.svg"
+	type="image/svg+xml">
+<LINK
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<LINK rel="stylesheet" type="text/css" href="./CSS/StyleSheet.css">
+</HEAD>
+<BODY>
+
+<input type="hidden" id="currentPage" value="1">
+
+	<!-- Nav Bar -->
+
+	<NAV class="navbar navbar-expand-lg bg-body-tertiary">
+		<DIV class="container-fluid">
+			<A class="navbar-brand" href="#">CRITIQUECRUSHER</a>
+			<BUTTON class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<SPAN class="navbar-toggler-icon"></SPAN>
+			</BUTTON>
+			<DIV class="collapse navbar-collapse" id="navbarSupportedContent">
+				<UL class="navbar-nav me-auto mb-2 mb-lg-0">
+					<LI class="nav-item">
+						<BUTTON class="btn btn-link"
+							onclick='getFilmTable("data-type", "resultDiv", "1")'>
+							VIEW ALL MOVIES</BUTTON>
+					</LI>
+					<LI class="nav-item">
+						<BUTTON type="button" class="btn btn-link" data-bs-toggle="modal"
+							data-bs-target="#insertModal">ADD MOVIE</BUTTON>
+					</LI>
+					<LI class="nav-item">
+						<BUTTON type="button" class="btn btn-link" data-bs-toggle="modal"
+							data-bs-target="#searchModal">SEARCH</BUTTON>
+					</LI>
+				</UL>
+				<LABEL for="data-type">Server Data Type:</LABEL> <SELECT
+					id="data-type">
+					<OPTION value="xml" selected="selected">XML</OPTION>
+					<OPTION value="json">JSON</OPTION>
+					<OPTION value="string">String</OPTION>
+				</SELECT>
+			</DIV>
+		</DIV>
+	</NAV>
+
+
+
+	<!-- Insert Modal -->
+
+	<DIV class="modal fade" id="insertModal" tabindex="-1"
+		aria-labelledby="insertModalLabel">
+		<DIV class="modal-dialog">
+			<DIV class="modal-content">
+				<DIV class="modal-header">
+					<H1 class="modal-title fs-5" id="insertModalLabel">Add a new
+						movie</H1>
+					<BUTTON type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></BUTTON>
+				</DIV>
+				<DIV class="modal-body">
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="insertId" name="id"
+							placeholder="Enter ID"> <LABEL for="insertId">ID</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="insertTitle"
+							name="title" placeholder="Enter title"> <LABEL
+							for="insertTitle">Title</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="year" name="year"
+							placeholder="Enter year"> <LABEL for="year">Year</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="director"
+							name="director" placeholder="Enter director"> <LABEL
+							for="director">Director</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="stars" name="stars"
+							placeholder="Enter stars"> <LABEL for="stars">Stars</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="review" name="review"
+							placeholder="Enter review"> <LABEL for="review">Review</LABEL>
+					</DIV>
+				</DIV>
+				<DIV class="modal-footer">
+					<BUTTON type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</BUTTON>
+					<BUTTON type="button" class="btn btn-primary" value="submit"
+						onclick='parseFilmToJsObject()'>Submit</BUTTON>
+				</DIV>
+			</DIV>
+		</DIV>
+	</DIV>
+
+	<!-- Search Modal -->
+
+	<DIV class="modal fade" id="searchModal" tabindex="-1"
+		aria-labelledby="searchModalLabel">
+		<DIV class="modal-dialog">
+			<DIV class="modal-content">
+				<DIV class="modal-header">
+					<H1 class="modal-title fs-5" id="searchModalLabel">Search for
+						a movie</H1>
+					<BUTTON type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></BUTTON>
+				</DIV>
+				<DIV class="modal-body">
+					<!-- Search By ID -->
+					<FORM class="d-flex" role="search" onsubmit="return false;">
+						<INPUT class="form-control me-2" type="search" id="id" name="id"
+							placeholder="Search by ID" aria-label="Search"
+							onkeydown="if (event.keyCode == 13) document.getElementById('idSearchButton').click();">
+						<BUTTON type="button" id="idSearchButton"
+							class="btn btn-outline-primary"
+							onclick='getSearchByIdResultsTable("data-type", "resultDiv", "id")'>Search</BUTTON>
+					</FORM>
+					<!-- Search By Title -->
+					<FORM class="d-flex" role="search" onsubmit="return false">
+						<INPUT class="form-control me-2" type="search" id="title"
+							name="title" placeholder="Search by Title" aria-label="Search"
+							onkeydown="if (event.keyCode == 13) document.getElementById('titleSearchButton').click();">
+						<BUTTON type="button" id="titleSearchButton"
+							class="btn btn-outline-primary"
+							onclick='getSearchByTitleResultsTable("data-type", "resultDiv", "title")'>Search</BUTTON>
+					</FORM>
+					<!-- Search By Year -->
+					<FORM class="d-flex" role="search" onsubmit="return false">
+						<INPUT class="form-control me-2" type="search" id="searchYear"
+							name="year" placeholder="Search by Year" aria-label="Search"
+							onkeydown="if (event.keyCode == 13) document.getElementById('yearSearchButton').click();">
+						<BUTTON type="button" id="yearSearchButton"
+							class="btn btn-outline-primary"
+							onclick='getSearchByYearResultsTable("data-type", "resultDiv","searchYear")'>Search</BUTTON>
+					</FORM>
+				</DIV>
+				<DIV class="modal-footer">
+					<BUTTON type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</BUTTON>
+				</DIV>
+			</DIV>
+		</DIV>
+	</DIV>
+
+	<!-- Update Modal -->
+
+	<DIV class="modal fade" id="updateModal" tabindex="-1"
+		aria-labelledby="updateModalLabel">
+		<DIV class="modal-dialog">
+			<DIV class="modal-content">
+				<DIV class="modal-header">
+					<H1 class="modal-title fs-5" id="updateModalLabel">Update
+						movie</H1>
+					<BUTTON type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></BUTTON>
+				</DIV>
+				<DIV class="modal-body">
+					<DIV class="form-floating mb-3">
+						<INPUT class="form-control" type="text" id="updateID"
+							aria-label="Disabled input example" disabled readonly> <LABEL
+							for="insertId">ID</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="updateTitle"
+							name="title" placeholder="Enter title"> <LABEL
+							for="insertTitle">Title</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="updateYear"
+							name="year" placeholder="Enter year"> <LABEL for="year">Year</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="updateDirector"
+							name="director" placeholder="Enter director"> <LABEL
+							for="director">Director</LABEL>
+					</DIV>
+					<DIV class="form-floating mb-3">
+						<INPUT type="text" class="form-control" id="updateStars"
+							name="stars" placeholder="Enter stars"> <LABEL
+							for="stars">Stars</LABEL>
+					</DIV>
+					<DIV class="h-75">
+						<DIV class="form-floating mb-3">
+							<INPUT type="text" class="form-control" id="updateReview"
+								name="review" placeholder="Enter review"> <LABEL
+								for="review">Review</LABEL>
+						</DIV>
+					</DIV>
+				</DIV>
+				<DIV class="modal-footer">
+					<BUTTON type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</BUTTON>
+					<BUTTON onclick='formatAndSendPUTRequest()' type="button"
+						class="btn btn-primary">Save changes</BUTTON>
+				</DIV>
+			</DIV>
+		</DIV>
+	</DIV>
+
+	<!-- Delete Modal -->
+
+	<DIV class="modal fade" id="deleteModal" tabindex="-1"
+		aria-labelledby="deleteModalLabel">
+		<DIV class="modal-dialog">
+			<DIV class="modal-content">
+				<DIV class="modal-header">
+					<H1 class="modal-title fs-5" id="deleteModalLabel">Delete
+						Movie</H1>
+					<BUTTON type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></BUTTON>
+				</DIV>
+				<DIV class="modal-body">
+					<DIV class="invisible">
+						<INPUT class="form-control" type="text" id="deleteID" disabled
+							readonly>
+					</DIV>
+					Are you sure you wish to delete this movie?
+				</DIV>
+				<DIV class="modal-footer">
+					<BUTTON type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</BUTTON>
+					<BUTTON onclick='formatAndSendDeleteRequest("api-controller")'
+						type="button" class="btn btn-primary">Delete</BUTTON>
+				</DIV>
+			</DIV>
+		</DIV>
+	</DIV>
+
+	<NAV aria-label="Page navigation">
+		<UL class="pagination" id="paginationLinks">
+		</UL>
+	</NAV>
+
+	<DIV id="resultDiv"></DIV>
+	<DIV id="searchDiv"></DIV>
+
+	<SCRIPT src="./Scripts/AjaxUtils.js"></SCRIPT>
+	<SCRIPT src="./Scripts/AjaxData.js"></SCRIPT>
+	<SCRIPT
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></SCRIPT>
+</BODY>
+</HTML>

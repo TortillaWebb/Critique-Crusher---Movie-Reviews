@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+.navbar {
+	background-color:#0e3fa9 !important;
+	line-height: 60px;
+}
+
+@font-face {
+	font-family: "itc-machine";
+	src: url(../Assets/ITCMachine-MediumMedium.woff) format('woff');
+}
+
+.navbar-brand {
+	font-family: "itc-machine", monospace;
+	color: #ffaa07;
+	font-size: 50px;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.btn.btn-link {
+	font-family: monospace;
+	color: #FBFCFC !important;
+	text-decoration: none;
+}
+
+.navbar-nav .nav-item .nav-link {
+	color: #FBFCFC;
+}
+
+.nav-item.dropdown {
+	font-family: monospace;
+	color: #FBFCFC !important;
+}
+
+.d-flex {
+  width: 300px;
+}
+
+label[for="data-type"] {
+ font-family: monospace;
+	color: #FBFCFC; 
+}
+
