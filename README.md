@@ -22,5 +22,5 @@ Searching for reviews by ID, movie title, or movie release year:
 
 <img width="711" alt="Screenshot 2024-07-07 at 22 06 37" src="https://github.com/TortillaWebb/Critique-Crusher---Movie-Reviews/assets/135722426/7feabb22-6f0b-421a-bc52-ae5b954f9d8b">
 
-The code in this project is written to a professional standard and documented appropriately. Design patterns utilised include MVC, singleton and factory method. 
+The code in this project is written to a professional standard and documented appropriately. Use of an external API was demonstrated to provide corresponding posters for each movie. Design patterns utilised include MVC, singleton and factory method. 
 
