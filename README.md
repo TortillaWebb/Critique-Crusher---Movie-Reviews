@@ -1,6 +1,6 @@
 # Critique Crusher - Movie Reviews
 
-This project is a movie review website. The project utilises a restful API, and exchanges data between client and server in text/plain, XML, or JSON format. 
+This project is a movie review website written in Java & JavaScript. The project utilises a restful API, and exchanges data between client and server in text/plain, XML, or JSON format. 
 
 The website offers full CRUD functionality, including displaying all movie reviews: 
 
